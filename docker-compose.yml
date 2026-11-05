@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: railway_reservation_app
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=development
+      - DB_NAME=/app/data/railway_reservation.db
+      - SECRET_KEY=docker-dev-secret-railway-key
+    volumes:
+      - railway_data:/app/data
+    restart: unless-stopped
+
+volumes:
+  railway_data:
+    driver: local
