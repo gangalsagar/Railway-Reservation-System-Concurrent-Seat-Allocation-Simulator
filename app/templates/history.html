@@ -3,52 +3,84 @@
 {% block title %}Passenger Booking History - BharatRail Express{% endblock %}
 
 {% block content %}
-<section class="card" style="max-width: 800px; margin: 0 auto 24px auto;">
-  <div class="card-title">
-    <span>Passenger Booking History Lookup</span>
-  </div>
-  <div class="form-grid" style="grid-template-columns: 1fr auto;">
-    <div class="form-group">
-      <label for="history-passenger-select">Select Passenger</label>
-      <select id="history-passenger-select" class="form-control">
-        <option value="1">Rahul Sharma (rahul.sharma@example.com) - ID: 1</option>
-        <option value="2">Priya Patel (priya.patel@example.com) - ID: 2</option>
-        <option value="3">Amit Verma (amit.verma@example.com) - ID: 3</option>
-        <option value="4">Sneha Reddy (sneha.reddy@example.com) - ID: 4</option>
-        <option value="5">Vikram Singh (vikram.singh@example.com) - ID: 5</option>
-        <option value="6">Ananya Das (ananya.das@example.com) - ID: 6</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <button type="button" class="btn btn-primary" onclick="loadPassengerHistory()">View Bookings</button>
-    </div>
-  </div>
-</section>
+<div class="history-page">
 
-<section class="card" style="max-width: 800px; margin: 0 auto;">
-  <div class="card-title">
-    <span id="history-passenger-title">Reservation Records</span>
+  <div class="history-intro">
+    <div class="history-intro-copy">
+      <span class="history-eyebrow">YOUR TRAVEL RECORDS</span>
+      <h1>Every journey, in one place.</h1>
+      <p>Explore your past reservations and review your confirmed seat allocations.</p>
+    </div>
+    <span class="history-intro-number" aria-hidden="true">BR</span>
   </div>
-  <div class="table-responsive">
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Booking ID</th>
-          <th>Train</th>
-          <th>Route</th>
-          <th>Date</th>
-          <th>Seat</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody id="history-table-body">
-        <tr>
-          <td colspan="6" style="text-align:center; padding:20px;">Select a passenger and click "View Bookings"</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</section>
+
+  <section class="card history-search-card">
+    <div class="history-section-heading">
+      <div>
+        <span class="history-eyebrow">FIND YOUR RESERVATIONS</span>
+        <h2>Passenger booking history</h2>
+        <p>Choose a passenger profile to view its reservation records.</p>
+      </div>
+    </div>
+
+    <div class="history-search-controls">
+      <div class="form-group">
+        <label for="history-passenger-select">SELECT PASSENGER PROFILE</label>
+        <select id="history-passenger-select" class="form-control">
+          <option value="1">Rahul Sharma (rahul.sharma@example.com) - ID: 1</option>
+          <option value="2">Priya Patel (priya.patel@example.com) - ID: 2</option>
+          <option value="3">Amit Verma (amit.verma@example.com) - ID: 3</option>
+          <option value="4">Sneha Reddy (sneha.reddy@example.com) - ID: 4</option>
+          <option value="5">Vikram Singh (vikram.singh@example.com) - ID: 5</option>
+          <option value="6">Ananya Das (ananya.das@example.com) - ID: 6</option>
+        </select>
+      </div>
+
+      <button type="button" class="btn btn-accent history-search-button"
+              onclick="loadPassengerHistory()">
+        View Bookings &rarr;
+      </button>
+    </div>
+  </section>
+
+  <section class="card history-records-card">
+    <div class="history-section-heading">
+      <div>
+        <span class="history-eyebrow">RESERVATION OVERVIEW</span>
+        <h2 id="history-passenger-title">Reservation Records</h2>
+        <p>Your booking details and seat allocation status.</p>
+      </div>
+      <span class="history-records-label">BOOKING RECORDS</span>
+    </div>
+
+    <div class="table-responsive history-table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Booking ID</th>
+            <th>Train</th>
+            <th>Route</th>
+            <th>Date</th>
+            <th>Seat</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="history-table-body">
+          <tr>
+            <td colspan="6" style="text-align:center; padding:24px;">
+              Select a passenger and click "View Bookings"
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <p class="history-footnote">
+    Reservation records are retrieved from the simulator database.
+  </p>
+
+</div>
 {% endblock %}
 
 {% block scripts %}

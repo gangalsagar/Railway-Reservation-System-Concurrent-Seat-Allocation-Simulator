@@ -3,79 +3,97 @@
 {% block title %}Booking Result - BharatRail Express{% endblock %}
 
 {% block content %}
-<div class="ticket-card">
-  <!-- 1. Confirmed View -->
+<div class="rail-result-page">
+
+  <!-- Confirmed booking -->
   <div id="confirmed-view">
-    <div class="ticket-header confirmed">
-      <div>
-        <h2 style="font-size:20px; font-weight:800; margin-bottom:2px;">Booking Confirmed!</h2>
-        <p style="font-size:13px; opacity:0.9;">Your seat has been safely reserved.</p>
-      </div>
-      <div>
-        <span class="badge" style="background:#fff; color:#2e7d32; font-size:13px;" id="ticket-booking-id">#--</span>
-      </div>
-    </div>
+    <section class="rail-result-banner rail-result-success">
+      <div class="rail-result-symbol" aria-hidden="true">✓</div>
+      <p class="rail-result-eyebrow">BHARATRAIL EXPRESS · RESERVATION STATUS</p>
+      <h1>You're all set for your journey.</h1>
+      <p>Your seat has been successfully reserved.</p>
+      <span class="rail-result-status">BOOKING CONFIRMED</span>
+    </section>
 
-    <div class="ticket-body">
-      <div class="ticket-row">
-        <span class="ticket-label">Train & Route</span>
-        <span class="ticket-val" id="ticket-train">Loading...</span>
-      </div>
-      <div class="ticket-row">
-        <span class="ticket-label">Date of Journey</span>
-        <span class="ticket-val" id="ticket-date">--</span>
-      </div>
-      <div class="ticket-row">
-        <span class="ticket-label">Passenger Name</span>
-        <span class="ticket-val" id="ticket-passenger">--</span>
-      </div>
-      <div class="ticket-row">
-        <span class="ticket-label">Allocated Seat & Class</span>
-        <span class="ticket-val" style="color:var(--primary); font-size:16px;" id="ticket-seat">--</span>
-      </div>
-      <div class="ticket-row">
-        <span class="ticket-label">Booking Timestamp</span>
-        <span class="ticket-val" id="ticket-time">--</span>
-      </div>
-      <div class="ticket-row">
-        <span class="ticket-label">Idempotency Key</span>
-        <span class="ticket-val" style="font-family:monospace; font-size:11px;" id="ticket-idemp">--</span>
+    <section class="rail-result-ticket">
+      <div class="rail-result-ticket-heading">
+        <div>
+          <p class="rail-result-kicker">YOUR RESERVATION</p>
+          <h2>Journey details</h2>
+          <p>Review your confirmed seat allocation below.</p>
+        </div>
+        <span class="rail-result-booking-id" id="ticket-booking-id">#--</span>
       </div>
 
-      <div style="margin-top:24px; display:flex; justify-content:space-between; gap:12px;">
-        <button class="btn btn-outline" onclick="window.print()">Print Ticket</button>
-        <a href="/" class="btn btn-primary">Book Another Journey</a>
+      <div class="rail-result-details">
+        <div class="rail-result-detail">
+          <span>TRAIN &amp; ROUTE</span>
+          <strong id="ticket-train">Loading...</strong>
+        </div>
+        <div class="rail-result-detail">
+          <span>JOURNEY DATE</span>
+          <strong id="ticket-date">--</strong>
+        </div>
+        <div class="rail-result-detail">
+          <span>PASSENGER</span>
+          <strong id="ticket-passenger">--</strong>
+        </div>
+        <div class="rail-result-detail">
+          <span>CONFIRMED SEAT &amp; CLASS</span>
+          <strong class="rail-result-seat" id="ticket-seat">--</strong>
+        </div>
+        <div class="rail-result-detail">
+          <span>BOOKING TIME</span>
+          <strong id="ticket-time">--</strong>
+        </div>
+        <div class="rail-result-detail">
+          <span>REFERENCE / IDEMPOTENCY KEY</span>
+          <strong class="rail-result-reference" id="ticket-idemp">--</strong>
+        </div>
       </div>
-    </div>
+
+      <div class="rail-result-actions">
+        <button type="button" class="btn btn-outline" onclick="window.print()">Print Ticket</button>
+        <a href="/" class="btn btn-accent">Book Another Journey &rarr;</a>
+      </div>
+    </section>
   </div>
 
-  <!-- 2. Rejected View (Concurrency Conflict) -->
+  <!-- Rejected booking -->
   <div id="rejected-view" style="display:none;">
-    <div class="ticket-header rejected">
-      <div>
-        <h2 style="font-size:20px; font-weight:800; margin-bottom:2px;">Booking Rejected</h2>
-        <p style="font-size:13px; opacity:0.9;">Concurrent Seat Allocation Conflict</p>
-      </div>
-      <div>
-        <span class="badge" style="background:#fff; color:#c62828;">STATUS: REJECTED</span>
-      </div>
-    </div>
+    <section class="rail-result-banner rail-result-failure">
+      <div class="rail-result-symbol" aria-hidden="true">!</div>
+      <p class="rail-result-eyebrow">BHARATRAIL EXPRESS · RESERVATION STATUS</p>
+      <h1>This seat is no longer available.</h1>
+      <p>Your booking could not be confirmed because of a seat-allocation conflict.</p>
+      <span class="rail-result-status">BOOKING REJECTED</span>
+    </section>
 
-    <div class="ticket-body">
-      <div style="background:var(--danger-bg); border-left:4px solid var(--danger); padding:16px; border-radius:4px; margin-bottom:20px;">
-        <h3 style="font-size:16px; color:var(--danger); margin-bottom:6px;">Seat Already Allocated!</h3>
-        <p style="font-size:14px; color:#5f2120;">
-          The requested seat (<strong id="rejected-seat-label">Seat</strong>) was claimed by another passenger during this simultaneous booking burst.
-          The database transaction safely rolled back to guarantee zero double bookings.
+    <section class="rail-result-ticket">
+      <div class="rail-result-ticket-heading">
+        <div>
+          <p class="rail-result-kicker">SEAT ALLOCATION UPDATE</p>
+          <h2>Choose another seat</h2>
+          <p>Your request was rejected to prevent duplicate seat allocation.</p>
+        </div>
+      </div>
+
+      <div class="rail-result-conflict">
+        <strong>Seat already allocated</strong>
+        <p>
+          The requested seat (<strong id="rejected-seat-label">Seat</strong>)
+          was allocated to another booking during concurrent requests.
+          The system prevents duplicate confirmed allocations.
         </p>
       </div>
 
-      <div style="display:flex; justify-content:space-between; gap:12px;">
+      <div class="rail-result-actions">
         <a href="/" class="btn btn-outline">Back to Home</a>
-        <a href="/" id="rejected-back-link" class="btn btn-accent">Select Another Seat</a>
+        <a href="/" id="rejected-back-link" class="btn btn-accent">Select Another Seat &rarr;</a>
       </div>
-    </div>
+    </section>
   </div>
+
 </div>
 {% endblock %}
 
@@ -86,4 +104,3 @@
   });
 </script>
 {% endblock %}
-

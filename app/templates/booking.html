@@ -3,21 +3,38 @@
 {% block title %}Passenger Booking - BharatRail Express{% endblock %}
 
 {% block content %}
-<div style="max-width: 680px; margin: 0 auto;">
-  <div style="margin-bottom: 20px;">
-    <a href="javascript:history.back()" class="btn btn-outline" style="font-size: 13px; padding: 6px 14px;">&larr; Change Seat Selection</a>
+<div class="booking-page">
+
+  <div class="booking-topbar">
+    <a href="javascript:history.back()" class="btn btn-outline">
+      &larr; Change Seat Selection
+    </a>
+    <span class="booking-step">STEP 03 / 03 · BOOKING CONFIRMATION</span>
   </div>
 
-  <section class="card">
-    <div class="card-title">
-      <span>Confirm Seat Allocation</span>
-      <span class="badge badge-info" id="booking-seat-display">Seat #</span>
+  <section class="booking-banner">
+    <div>
+      <div class="booking-eyebrow">YOUR JOURNEY, ALMOST READY</div>
+      <h1>Complete your reservation.</h1>
+      <p>Review your selected seat and passenger details before confirming.</p>
+    </div>
+    <div class="booking-banner-art" aria-hidden="true">03</div>
+  </section>
+
+  <section class="card booking-main-card">
+    <div class="booking-section-heading">
+      <div>
+        <div class="booking-eyebrow">PASSENGER INFORMATION</div>
+        <h2>Confirm seat allocation</h2>
+        <p>Just a few details before your journey begins.</p>
+      </div>
+      <span class="badge badge-info booking-seat-badge" id="booking-seat-display">Seat #</span>
     </div>
 
     <form id="booking-form" onsubmit="handleBookingSubmit(event)">
-      <!-- Passenger Selection / Information -->
-      <div class="form-group" style="margin-bottom: 18px;">
-        <label for="passenger-select">Select Passenger Profile</label>
+
+      <div class="form-group booking-field">
+        <label for="passenger-select">SELECT PASSENGER PROFILE</label>
         <select id="passenger-select" class="form-control" required>
           <option value="1">Rahul Sharma (rahul.sharma@example.com) - ID: 1</option>
           <option value="2">Priya Patel (priya.patel@example.com) - ID: 2</option>
@@ -26,40 +43,67 @@
           <option value="5">Vikram Singh (vikram.singh@example.com) - ID: 5</option>
           <option value="6">Ananya Das (ananya.das@example.com) - ID: 6</option>
         </select>
-        <small style="color:var(--text-muted); font-size:12px; margin-top:4px;">
+        <small class="booking-help">
           Using seeded passenger profiles for prototype evaluation.
         </small>
       </div>
 
-      <!-- Concurrency Idempotency Key -->
-      <div class="form-group" style="margin-bottom: 24px;">
-        <label for="booking-idempotency-key">Client Idempotency Key</label>
-        <div style="display:flex; gap:10px;">
-          <input type="text" id="booking-idempotency-key" class="form-control" style="font-family:monospace; font-size:13px;" readonly required>
-          <button type="button" class="btn btn-outline" style="padding:8px 12px; font-size:12px;" onclick="getOrCreateIdempotencyKey(true); initBookingForm();">
+      <div class="booking-divider"></div>
+
+      <div class="form-group booking-field">
+        <label for="booking-idempotency-key">CLIENT IDEMPOTENCY KEY</label>
+        <div class="booking-key-row">
+          <input
+            type="text"
+            id="booking-idempotency-key"
+            class="form-control"
+            readonly
+            required
+          >
+          <button
+            type="button"
+            class="btn btn-outline"
+            onclick="getOrCreateIdempotencyKey(true); initBookingForm();"
+          >
             Regenerate
           </button>
         </div>
-        <small style="color:var(--text-muted); font-size:12px; margin-top:4px;">
-          Guarantees that repeated submissions or network retries do not create duplicate bookings.
+        <small class="booking-help">
+          Helps prevent duplicate bookings from repeated submissions or network retries.
         </small>
       </div>
 
-      <!-- Concurrency Notice Alert -->
-      <div style="background:var(--info-bg); border-left:4px solid var(--info); padding:12px 16px; border-radius:4px; font-size:13px; margin-bottom:24px;">
-        <strong>Tatkal Concurrency Notice:</strong>
-        Seat allocation will execute atomically inside a single SQLite transaction with in-process mutex protection. If another passenger books this seat first, your request will be safely rejected with zero duplicate allocations.
+      <div class="booking-security-note">
+        <div class="booking-security-icon" aria-hidden="true">✓</div>
+        <div>
+          <strong>Protected seat allocation</strong>
+          <p>
+            This simulator uses SQLite transactions, in-process locking, and
+            database constraints to prevent duplicate confirmed seat allocations.
+            If another request secures the seat first, your booking will be rejected.
+          </p>
+        </div>
       </div>
 
-      <!-- Action Buttons -->
-      <div style="display:flex; justify-content:flex-end; gap:12px;">
+      <div class="booking-actions">
         <a href="/" class="btn btn-outline">Cancel</a>
-        <button type="submit" id="submit-booking-btn" class="btn btn-accent" style="padding: 12px 28px; font-size:15px;">
+        <button
+          type="submit"
+          id="submit-booking-btn"
+          class="btn btn-accent"
+        >
           Confirm Booking Now &rarr;
         </button>
       </div>
+
     </form>
   </section>
+
+  <div class="booking-footer-note">
+    <span aria-hidden="true">✦</span>
+    Built for reliable concurrent seat allocation · Educational railway reservation simulator
+  </div>
+
 </div>
 {% endblock %}
 
@@ -70,4 +114,3 @@
   });
 </script>
 {% endblock %}
-
