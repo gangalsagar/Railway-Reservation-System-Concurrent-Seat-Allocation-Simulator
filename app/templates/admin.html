@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard & Telemetry - BharatRail Express{% endblock %}
+
+{% block content %}
+<section style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:16px;">
+  <div>
+    <h1 style="font-size:24px; color:var(--primary); font-weight:800;">System Telemetry & Performance Dashboard</h1>
+    <p style="color:var(--text-muted); font-size:14px;">Live monitoring of concurrency locks, latencies, requests, and allocations.</p>
+  </div>
+  <div style="display:flex; gap:12px; align-items:center;">
+    <label style="display:flex; align-items:center; gap:6px; font-size:13px; font-weight:600; cursor:pointer;">
+      <input type="checkbox" id="auto-refresh-toggle" onchange="toggleAdminAutoRefresh(this.checked)">
+      Auto-refresh (4s)
+    </label>
+    <button class="btn btn-outline" style="padding:8px 14px; font-size:13px;" onclick="loadAdminData()">Refresh Now</button>
+  </div>
+</section>
+
+<!-- High-Level Metrics Grid -->
+<div class="metrics-grid">
+  <div class="stat-card">
+    <div class="stat-title">Total Requests</div>
+    <div class="stat-value" id="metric-total-requests">--</div>
+  </div>
+  <div class="stat-card success">
+    <div class="stat-title">Confirmed Bookings</div>
+    <div class="stat-value" style="color:var(--success);" id="metric-success-requests">--</div>
+  </div>
+  <div class="stat-card danger">
+    <div class="stat-title">Rejected (Conflicts)</div>
+    <div class="stat-value" style="color:var(--danger);" id="metric-rejected-requests">--</div>
+  </div>
+  <div class="stat-card warning">
+    <div class="stat-title">Error Rate</div>
+    <div class="stat-value" style="color:var(--warning);" id="metric-error-rate">--%</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-title">Avg Latency</div>
+    <div class="stat-value" id="metric-avg-latency">-- ms</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-title">P95 Latency</div>
+    <div class="stat-value" id="metric-p95-latency">-- ms</div>
+  </div>
+</div>
+
+<!-- Seat Inventory Status -->
+<section class="card">
+  <div class="card-title">
+    <span>System Seat Inventory Overview</span>
+    <span style="font-size:12px; font-weight:normal; color:var(--text-muted);">Across all 4 active trains</span>
+  </div>
+  <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:16px; margin-bottom:16px;">
+    <div style="background:var(--bg); padding:14px; border-radius:var(--radius); text-align:center;">
+      <div style="font-size:12px; color:var(--text-muted); font-weight:600;">TOTAL CAPACITY</div>
+      <div style="font-size:22px; font-weight:800; color:var(--primary);" id="metric-total-seats">--</div>
+    </div>
+    <div style="background:var(--success-bg); padding:14px; border-radius:var(--radius); text-align:center;">
+      <div style="font-size:12px; color:var(--success); font-weight:600;">AVAILABLE SEATS</div>
+      <div style="font-size:22px; font-weight:800; color:var(--success);" id="metric-available-seats">--</div>
+    </div>
+    <div style="background:var(--danger-bg); padding:14px; border-radius:var(--radius); text-align:center;">
+      <div style="font-size:12px; color:var(--danger); font-weight:600;">CONFIRMED BOOKINGS</div>
+      <div style="font-size:22px; font-weight:800; color:var(--danger);" id="metric-booked-seats">--</div>
+    </div>
+  </div>
+</section>
+
+<!-- Recent Bookings Table -->
+<section class="card">
+  <div class="card-title">
+    <span>Recent Confirmed Reservation Records</span>
+    <span style="font-size:12px; font-weight:normal; color:var(--text-muted);">Top 30 records</span>
+  </div>
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>Passenger</th>
+          <th>Journey</th>
+          <th>Seat</th>
+          <th>Status</th>
+          <th>Timestamp</th>
+          <th>Idempotency Key</th>
+        </tr>
+      </thead>
+      <tbody id="admin-bookings-table-body">
+        <tr>
+          <td colspan="7" style="text-align:center; padding:20px;">Loading bookings...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    loadAdminData();
+  });
+</script>
+{% endblock %}

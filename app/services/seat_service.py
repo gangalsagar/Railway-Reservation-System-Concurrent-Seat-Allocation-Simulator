@@ -47,3 +47,4 @@ class SeatService:
             "available_seats": counts["available_seats"] or 0,
             "booked_seats": counts["booked_seats"] or 0,
         }
+

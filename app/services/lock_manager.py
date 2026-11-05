@@ -72,3 +72,4 @@ class LockManager:
 
 # Singleton lock manager instance for process-level coordination
 lock_manager = LockManager()
+

@@ -224,3 +224,4 @@ def test_failed_transaction_leaves_no_partial_updates(test_app, monkeypatch):
         # Verify no booking was created with this key
         booking = Booking.get_by_idempotency_key("FAIL-TRANSACTION-PARTIAL")
         assert booking is None
+

@@ -188,3 +188,4 @@ class BookingService:
     def get_metrics(cls):
         """Retrieve operational metrics from booking requests table."""
         return BookingRequest.get_metrics()
+

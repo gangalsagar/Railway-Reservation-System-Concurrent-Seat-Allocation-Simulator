@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Passenger Booking History - BharatRail Express{% endblock %}
+
+{% block content %}
+<section class="card" style="max-width: 800px; margin: 0 auto 24px auto;">
+  <div class="card-title">
+    <span>Passenger Booking History Lookup</span>
+  </div>
+  <div class="form-grid" style="grid-template-columns: 1fr auto;">
+    <div class="form-group">
+      <label for="history-passenger-select">Select Passenger</label>
+      <select id="history-passenger-select" class="form-control">
+        <option value="1">Rahul Sharma (rahul.sharma@example.com) - ID: 1</option>
+        <option value="2">Priya Patel (priya.patel@example.com) - ID: 2</option>
+        <option value="3">Amit Verma (amit.verma@example.com) - ID: 3</option>
+        <option value="4">Sneha Reddy (sneha.reddy@example.com) - ID: 4</option>
+        <option value="5">Vikram Singh (vikram.singh@example.com) - ID: 5</option>
+        <option value="6">Ananya Das (ananya.das@example.com) - ID: 6</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <button type="button" class="btn btn-primary" onclick="loadPassengerHistory()">View Bookings</button>
+    </div>
+  </div>
+</section>
+
+<section class="card" style="max-width: 800px; margin: 0 auto;">
+  <div class="card-title">
+    <span id="history-passenger-title">Reservation Records</span>
+  </div>
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>Train</th>
+          <th>Route</th>
+          <th>Date</th>
+          <th>Seat</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="history-table-body">
+        <tr>
+          <td colspan="6" style="text-align:center; padding:20px;">Select a passenger and click "View Bookings"</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  async function loadPassengerHistory() {
+    const passengerId = document.getElementById("history-passenger-select").value;
+    const tbody = document.getElementById("history-table-body");
+    const title = document.getElementById("history-passenger-title");
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Loading...</td></tr>';
+
+    try {
+      const res = await fetch(`/api/passengers/${passengerId}/bookings`);
+      const data = await res.json();
+
+      if (data.success) {
+        title.innerText = `Bookings for ${data.passenger_name}`;
+        if (!data.bookings || data.bookings.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No bookings found for this passenger.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = data.bookings.map(b => `
+          <tr>
+            <td><strong>#${b.booking_id}</strong></td>
+            <td>Train ${b.train_number}</td>
+            <td>${b.source} &rarr; ${b.destination}</td>
+            <td>${b.journey_date}</td>
+            <td><span class="badge badge-info">${b.seat_number} (${b.seat_type})</span></td>
+            <td><span class="badge badge-success">${b.booking_status}</span></td>
+          </tr>
+        `).join("");
+      } else {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:var(--danger);">${data.error}</td></tr>`;
+      }
+    } catch (err) {
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--danger);">Error loading booking records.</td></tr>';
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadPassengerHistory();
+  });
+</script>
+{% endblock %}

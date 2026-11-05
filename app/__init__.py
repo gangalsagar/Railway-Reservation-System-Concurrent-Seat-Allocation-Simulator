@@ -14,8 +14,9 @@ def create_app(config_name=None):
     # Register database connection teardown
     app.teardown_appcontext(close_db)
 
-    # Register API Blueprint
-    from app.routes import api_bp
+    # Register Blueprints
+    from app.routes import api_bp, web_bp
     app.register_blueprint(api_bp)
+    app.register_blueprint(web_bp)
 
     return app

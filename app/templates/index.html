@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Search Journeys - BharatRail Express{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+  <h1>Concurrent Railway Seat Reservation Simulator</h1>
+  <p>
+    Simulate high-concurrency booking bursts during peak Tatkal booking windows with multi-tier concurrency protection:
+    in-process <code>threading.Lock</code> coordination, SQLite ACID transactions, and database-level partial unique constraints.
+  </p>
+</section>
+
+<!-- Journey Search Card -->
+<section class="card">
+  <div class="card-title">
+    <span>🔍 Find Scheduled Train Journeys</span>
+    <span style="font-size: 13px; font-weight: normal; color: var(--text-muted);">Real-time availability</span>
+  </div>
+  <form id="journey-search-form" onsubmit="searchJourneys(event)">
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="search-source">Source Station</label>
+        <input type="text" id="search-source" class="form-control" placeholder="e.g. Mumbai or Howrah">
+      </div>
+      <div class="form-group">
+        <label for="search-destination">Destination Station</label>
+        <input type="text" id="search-destination" class="form-control" placeholder="e.g. New Delhi">
+      </div>
+      <div class="form-group">
+        <label for="search-date">Travel Date</label>
+        <input type="date" id="search-date" class="form-control" value="2026-11-15">
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-accent" style="width: 100%;">
+          Search Trains
+        </button>
+      </div>
+    </div>
+  </form>
+</section>
+
+<!-- Journey Results Section -->
+<section>
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px;">
+    <h2 style="font-size: 20px; font-weight: 700; color: var(--primary);">Available Express Journeys</h2>
+    <button class="btn btn-outline" style="padding: 6px 14px; font-size: 13px;" onclick="resetSearch()">Refresh List</button>
+  </div>
+  <div id="journey-results">
+    <!-- Populated dynamically via script.js -->
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    searchJourneys();
+  });
+</script>
+{% endblock %}

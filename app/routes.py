@@ -1,11 +1,46 @@
 import logging
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template
 from app.models import Journey
 from app.services import BookingService, SeatService
 
 logger = logging.getLogger(__name__)
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
+web_bp = Blueprint("web", __name__)
+
+
+# ---------------------------------------------------------
+# Web Template Routes (HTML Pages)
+# ---------------------------------------------------------
+
+@web_bp.route("/", methods=["GET"])
+def index_page():
+    return render_template("index.html")
+
+
+@web_bp.route("/seats/<int:journey_id>", methods=["GET"])
+def seats_page(journey_id):
+    return render_template("seats.html", journey_id=journey_id)
+
+
+@web_bp.route("/booking", methods=["GET"])
+def booking_page():
+    return render_template("booking.html")
+
+
+@web_bp.route("/confirmation", methods=["GET"])
+def confirmation_page():
+    return render_template("confirmation.html")
+
+
+@web_bp.route("/admin", methods=["GET"])
+def admin_page():
+    return render_template("admin.html")
+
+
+@web_bp.route("/history", methods=["GET"])
+def history_page():
+    return render_template("history.html")
 
 
 @api_bp.errorhandler(400)

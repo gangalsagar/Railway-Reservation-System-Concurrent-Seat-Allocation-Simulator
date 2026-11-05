@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Booking Result - BharatRail Express{% endblock %}
+
+{% block content %}
+<div class="ticket-card">
+  <!-- 1. Confirmed View -->
+  <div id="confirmed-view">
+    <div class="ticket-header confirmed">
+      <div>
+        <h2 style="font-size:20px; font-weight:800; margin-bottom:2px;">Booking Confirmed!</h2>
+        <p style="font-size:13px; opacity:0.9;">Your seat has been safely reserved.</p>
+      </div>
+      <div>
+        <span class="badge" style="background:#fff; color:#2e7d32; font-size:13px;" id="ticket-booking-id">#--</span>
+      </div>
+    </div>
+
+    <div class="ticket-body">
+      <div class="ticket-row">
+        <span class="ticket-label">Train & Route</span>
+        <span class="ticket-val" id="ticket-train">Loading...</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">Date of Journey</span>
+        <span class="ticket-val" id="ticket-date">--</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">Passenger Name</span>
+        <span class="ticket-val" id="ticket-passenger">--</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">Allocated Seat & Class</span>
+        <span class="ticket-val" style="color:var(--primary); font-size:16px;" id="ticket-seat">--</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">Booking Timestamp</span>
+        <span class="ticket-val" id="ticket-time">--</span>
+      </div>
+      <div class="ticket-row">
+        <span class="ticket-label">Idempotency Key</span>
+        <span class="ticket-val" style="font-family:monospace; font-size:11px;" id="ticket-idemp">--</span>
+      </div>
+
+      <div style="margin-top:24px; display:flex; justify-content:space-between; gap:12px;">
+        <button class="btn btn-outline" onclick="window.print()">Print Ticket</button>
+        <a href="/" class="btn btn-primary">Book Another Journey</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Rejected View (Concurrency Conflict) -->
+  <div id="rejected-view" style="display:none;">
+    <div class="ticket-header rejected">
+      <div>
+        <h2 style="font-size:20px; font-weight:800; margin-bottom:2px;">Booking Rejected</h2>
+        <p style="font-size:13px; opacity:0.9;">Concurrent Seat Allocation Conflict</p>
+      </div>
+      <div>
+        <span class="badge" style="background:#fff; color:#c62828;">STATUS: REJECTED</span>
+      </div>
+    </div>
+
+    <div class="ticket-body">
+      <div style="background:var(--danger-bg); border-left:4px solid var(--danger); padding:16px; border-radius:4px; margin-bottom:20px;">
+        <h3 style="font-size:16px; color:var(--danger); margin-bottom:6px;">Seat Already Allocated!</h3>
+        <p style="font-size:14px; color:#5f2120;">
+          The requested seat (<strong id="rejected-seat-label">Seat</strong>) was claimed by another passenger during this simultaneous booking burst.
+          The database transaction safely rolled back to guarantee zero double bookings.
+        </p>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; gap:12px;">
+        <a href="/" class="btn btn-outline">Back to Home</a>
+        <a href="/" id="rejected-back-link" class="btn btn-accent">Select Another Seat</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    loadConfirmationDetails();
+  });
+</script>
+{% endblock %}

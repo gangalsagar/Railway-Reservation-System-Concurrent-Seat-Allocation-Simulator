@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Railway Reservation System{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+  <!-- Global Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-content">
+      <a href="/" class="brand">
+        <span class="brand-icon">🚆</span>
+        <div>
+          <span class="brand-title">BharatRail Express</span>
+          <span class="brand-badge">Tatkal Simulator</span>
+        </div>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/" class="{% if request.path == '/' %}active{% endif %}">Search Journeys</a></li>
+        <li><a href="/history" class="{% if request.path == '/history' %}active{% endif %}">Booking History</a></li>
+        <li><a href="/admin" class="{% if request.path == '/admin' %}active{% endif %}">Admin Dashboard</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- Main View Block -->
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Global Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Railway Reservation System &middot; Concurrent Seat Allocation Simulator (V-Model / Scrum Case Study)</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
