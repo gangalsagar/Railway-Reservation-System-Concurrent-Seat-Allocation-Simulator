@@ -116,7 +116,7 @@ pytest -v
 
 ## 5. Development Milestones Progress
 - [x] **Milestone 1**: Environment and Project Structure (Scaffolding, dependencies, docs, Git repo)
-- [ ] **Milestone 2**: Database Implementation (Schema, foreign keys, partial unique constraints, connection management, seed data)
+- [x] **Milestone 2**: Database Implementation (Schema, foreign keys, partial unique constraints, connection management, seed data)
 - [ ] **Milestone 3**: Backend Models (Passenger, Journey, Seat, Booking domain entities)
 - [ ] **Milestone 4**: Flask APIs (REST endpoints for journeys, seats, bookings, admin metrics)
 - [ ] **Milestone 5**: Seat Allocation Functionality (Safe allocation logic, transaction boundaries)
@@ -125,3 +125,4 @@ pytest -v
 - [ ] **Milestone 8**: Frontend-Backend Integration (Fetch API integration, state management, error handling)
 - [ ] **Milestone 9**: Administrative Dashboard (Real-time telemetry, latencies, requests/sec, error rate)
 - [ ] **Milestone 10**: Application Execution & Verification (End-to-end load & concurrency verification)
+

@@ -45,3 +45,4 @@ To eliminate double booking during Tatkal bursts, the system deploys a defense-i
    - **Conditional Status Update**: `UPDATE seats SET status = 'BOOKED' WHERE seat_id = ? AND status = 'AVAILABLE'`. If the affected row count is 0, allocation fails immediately.
    - **Unique Constraint / Partial Unique Index**: `CREATE UNIQUE INDEX idx_unique_confirmed_seat ON bookings(journey_id, seat_id) WHERE booking_status = 'CONFIRMED'`. Even if multiple application instances bypass memory locks, the database engine enforces single ownership.
    - **Idempotency Verification**: Duplicate request submissions with the same `idempotency_key` are detected and handled without re-allocating duplicate seats.
+

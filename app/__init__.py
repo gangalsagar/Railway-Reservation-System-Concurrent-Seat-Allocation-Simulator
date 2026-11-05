@@ -16,3 +16,4 @@ def create_app(config_name=None):
         pass
 
     return app
+

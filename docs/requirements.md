@@ -25,3 +25,4 @@
 * **NFR-06 (Modularity & Maintainability)**: Clear separation of concerns across Models, Services, Routes, and Database Access layers.
 * **NFR-07 (Input Validation & Error Security)**: Defensive parameter validation, SQL parameterization, sanitized error messages without leaking stack traces.
 * **NFR-08 (Traceability & Metrics)**: Full telemetry tracking total requests, confirmations, rejections, processing latencies, and error rates.
+

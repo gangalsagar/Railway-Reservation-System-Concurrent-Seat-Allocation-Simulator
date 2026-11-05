@@ -90,3 +90,4 @@ def allocate_seat(passenger_id, journey_id, seat_id, idempotency_key):
         finally:
             conn.close()
 ```
+

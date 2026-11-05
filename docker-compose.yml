@@ -17,3 +17,4 @@ services:
 volumes:
   railway_data:
     driver: local
+
