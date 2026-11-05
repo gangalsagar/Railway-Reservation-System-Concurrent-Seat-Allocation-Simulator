@@ -63,6 +63,31 @@ def get_db_context(db_path=None, timeout=20.0, isolation_level=None):
         conn.close()
 
 
+@contextmanager
+def transactional_db_context(db_path=None, timeout=20.0, immediate=True):
+    """
+    Transactional context manager for atomic database operations.
+    Begins an IMMEDIATE transaction to prevent dirty reads and lock escalation deadlocks,
+    commits on clean exit, and rolls back safely on exception.
+    """
+    conn = create_connection(db_path=db_path, timeout=timeout, isolation_level=None)
+    try:
+        if immediate:
+            conn.execute("BEGIN IMMEDIATE")
+        else:
+            conn.execute("BEGIN TRANSACTION")
+        yield conn
+        conn.commit()
+    except Exception:
+        try:
+            conn.rollback()
+        except sqlite3.Error:
+            pass
+        raise
+    finally:
+        conn.close()
+
+
 def get_db():
     """
     Flask request-scoped database connection.

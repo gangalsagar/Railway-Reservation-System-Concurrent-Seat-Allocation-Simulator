@@ -94,3 +94,4 @@ class Journey:
     def get_all(cls, conn=None):
         """Retrieve all journeys."""
         return cls.search(conn=conn)
+

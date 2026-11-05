@@ -80,3 +80,4 @@ class Passenger:
             cursor.execute(query)
             rows = cursor.fetchall()
             return [cls._from_row(row) for row in rows]
+

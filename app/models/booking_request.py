@@ -137,3 +137,4 @@ class BookingRequest:
                 "p95_processing_time_ms": p95_time,
                 "error_rate_percent": error_rate,
             }
+

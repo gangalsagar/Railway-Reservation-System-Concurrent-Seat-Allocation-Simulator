@@ -118,7 +118,7 @@ pytest -v
 - [x] **Milestone 1**: Environment and Project Structure (Scaffolding, dependencies, docs, Git repo)
 - [x] **Milestone 2**: Database Implementation (Schema, foreign keys, partial unique constraints, connection management, seed data)
 - [x] **Milestone 3**: Backend Models (Passenger, Journey, Seat, Booking domain entities)
-- [ ] **Milestone 4**: Flask APIs (REST endpoints for journeys, seats, bookings, admin metrics)
+- [x] **Milestone 4**: Flask APIs (REST endpoints for journeys, seats, bookings, admin metrics)
 - [ ] **Milestone 5**: Seat Allocation Functionality (Safe allocation logic, transaction boundaries)
 - [ ] **Milestone 6**: Concurrency Control (Lock manager, thread coordination, duplicate prevention tests)
 - [ ] **Milestone 7**: Frontend Development (Search, seat layout, booking modal, confirmation, history)

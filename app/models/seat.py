@@ -129,3 +129,4 @@ class Seat:
             if not conn:
                 connection.commit()
             return updated
+

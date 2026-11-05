@@ -118,9 +118,10 @@ def seed_database(db_path=None):
         conn.commit()
 
         # 4. Seed Pre-existing Booked Seats (Demonstrating mixed states)
-        # For the first journey (12951), mark A1-01 and B1-01 as booked by Rahul Sharma and Priya Patel
-        first_journey = journeys_list[0]
-        fj_id = first_journey["journey_id"]
+        # For the premier journey (12951 Mumbai Central to New Delhi), mark A1-01 and B1-01 as booked
+        cursor.execute("SELECT journey_id FROM journeys WHERE train_number = '12951' LIMIT 1")
+        fj_row = cursor.fetchone()
+        fj_id = fj_row["journey_id"] if fj_row else journeys_list[0]["journey_id"]
         rahul_id = passengers_map.get("rahul.sharma@example.com")
         priya_id = passengers_map.get("priya.patel@example.com")
 

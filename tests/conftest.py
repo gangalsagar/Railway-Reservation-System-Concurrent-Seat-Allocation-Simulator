@@ -2,6 +2,7 @@ import pytest
 import sqlite3
 import tempfile
 from pathlib import Path
+from app import create_app
 from app.database.db_connection import init_db, create_connection
 from app.database.seed_data import seed_database
 
@@ -30,3 +31,17 @@ def seeded_db(temp_db):
     seed_database(db_path=temp_db)
     return temp_db
 
+
+@pytest.fixture
+def test_app(seeded_db):
+    """Creates a Flask application instance configured for testing with seeded_db."""
+    app = create_app("testing")
+    app.config["DATABASE_PATH"] = seeded_db
+    app.config["TESTING"] = True
+    return app
+
+
+@pytest.fixture
+def client(test_app):
+    """Provides a test client for sending HTTP requests to the application."""
+    return test_app.test_client()

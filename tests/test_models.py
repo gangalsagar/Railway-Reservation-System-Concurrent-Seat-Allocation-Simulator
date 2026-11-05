@@ -208,3 +208,4 @@ def test_booking_request_telemetry_and_metrics(temp_db):
         assert metrics["avg_processing_time_ms"] > 0
         assert metrics["p95_processing_time_ms"] > 0
         assert metrics["error_rate_percent"] == 33.33
+

@@ -150,3 +150,4 @@ class Booking:
             if not conn:
                 connection.commit()
             return updated
+
