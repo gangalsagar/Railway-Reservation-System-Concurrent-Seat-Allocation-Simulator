@@ -303,3 +303,4 @@ def test_transaction_rollback_when_booking_fails(test_app, monkeypatch):
     with test_app.app_context():
         seat = Seat.get_by_id(seat_id)
         assert seat.status == "AVAILABLE", f"Expected seat to remain AVAILABLE after rollback, got {seat.status}"
+
