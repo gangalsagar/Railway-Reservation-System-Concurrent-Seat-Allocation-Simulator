@@ -3,68 +3,96 @@
 {% block title %}Select Seats - BharatRail Express{% endblock %}
 
 {% block content %}
-<div style="margin-bottom: 20px;">
-  <a href="/" class="btn btn-outline" style="font-size: 13px; padding: 6px 14px;">&larr; Back to Journey Search</a>
+<div class="rail-seat-page">
+
+  <div class="rail-seat-back">
+    <a href="/" class="btn btn-outline">&larr; Back to journeys</a>
+    <span class="rail-seat-step">STEP 02 / 03 &nbsp;·&nbsp; SEAT SELECTION</span>
+  </div>
+
+  <section class="rail-seat-banner" id="journey-details-card">
+    <div>
+      <span class="rail-seat-kicker">YOUR UPCOMING JOURNEY</span>
+      <h1 id="train-title">Train Journey #{{ journey_id }}</h1>
+      <p id="train-route">Select your preferred coach class and seat number below.</p>
+    </div>
+    <span class="rail-seat-live">
+      <span class="rail-live-dot"></span>
+      LIVE SEAT LAYOUT
+    </span>
+  </section>
+
+  <section class="card rail-seat-panel">
+    <div class="rail-seat-panel-heading">
+      <div>
+        <span class="rail-section-kicker">CHOOSE YOUR COMFORT</span>
+        <h2>Explore available seats</h2>
+        <p>Choose a coach class, then select an available seat.</p>
+      </div>
+      <div class="rail-seat-decor" aria-hidden="true">02</div>
+    </div>
+
+    <div class="coach-tabs">
+      <button type="button" class="coach-tab active" data-type="ALL"
+              onclick="filterCoachSeats('ALL')">All Coaches</button>
+      <button type="button" class="coach-tab" data-type="1A"
+              onclick="filterCoachSeats('1A')">First AC (1A)</button>
+      <button type="button" class="coach-tab" data-type="2A"
+              onclick="filterCoachSeats('2A')">2-Tier AC (2A)</button>
+      <button type="button" class="coach-tab" data-type="3A"
+              onclick="filterCoachSeats('3A')">3-Tier AC (3A)</button>
+      <button type="button" class="coach-tab" data-type="SL"
+              onclick="filterCoachSeats('SL')">Sleeper (SL)</button>
+    </div>
+
+    <div class="rail-seat-legend-header">
+      <span>SEAT AVAILABILITY</span>
+      <div class="seat-legend">
+        <div class="legend-item">
+          <div class="legend-box" style="background:#e8f5e9; border:1px solid #a5d6a7;"></div>
+          <span>Available</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-box" style="background:#ffebee; border:1px solid #ef9a9a;"></div>
+          <span>Booked</span>
+        </div>
+        <div class="legend-item">
+          <div class="legend-box" style="background:var(--accent); border:1px solid #a77333;"></div>
+          <span>Your Selection</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="coach-layout rail-coach-layout">
+      <div class="rail-coach-layout-label">
+        <span class="rail-coach-marker"></span>
+        COACH SEAT MAP
+      </div>
+      <div id="seats-grid" class="seats-grid">
+        <!-- Generated via loadSeatsForJourney() -->
+      </div>
+    </div>
+
+    <div id="selected-seat-summary" class="rail-seat-action"
+         style="display:none; justify-content:space-between; align-items:center;">
+      <div>
+        <span class="rail-seat-selected-caption">YOUR SELECTED SEAT</span>
+        <div id="selected-seat-label">None selected</div>
+      </div>
+      <button type="button" id="btn-proceed-booking" class="btn btn-accent" disabled>
+        Proceed to Passenger Details &rarr;
+      </button>
+    </div>
+  </section>
+
+  <div class="rail-seat-note">
+    <span aria-hidden="true">✦</span>
+    <p>
+      Seat availability is validated again when booking.
+      This simulator uses concurrency controls to prevent duplicate confirmed allocations.
+    </p>
+  </div>
 </div>
-
-<!-- Journey Header Card -->
-<section class="card" id="journey-details-card">
-  <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
-    <div>
-      <h1 style="font-size: 22px; color: var(--primary);" id="train-title">Train Journey #{{ journey_id }}</h1>
-      <p style="color: var(--text-muted); font-size: 14px;" id="train-route">Select your preferred coach class and seat number below.</p>
-    </div>
-    <div style="text-align: right;">
-      <span class="badge badge-info" style="font-size: 12px; padding: 6px 12px;">Live Seat Layout</span>
-    </div>
-  </div>
-</section>
-
-<!-- Seat Layout Section -->
-<section class="card">
-  <!-- Coach Class Filter Tabs -->
-  <div class="coach-tabs">
-    <button type="button" class="coach-tab active" data-type="ALL" onclick="filterCoachSeats('ALL')">All Coaches</button>
-    <button type="button" class="coach-tab" data-type="1A" onclick="filterCoachSeats('1A')">First AC (1A)</button>
-    <button type="button" class="coach-tab" data-type="2A" onclick="filterCoachSeats('2A')">2-Tier AC (2A)</button>
-    <button type="button" class="coach-tab" data-type="3A" onclick="filterCoachSeats('3A')">3-Tier AC (3A)</button>
-    <button type="button" class="coach-tab" data-type="SL" onclick="filterCoachSeats('SL')">Sleeper (SL)</button>
-  </div>
-
-  <!-- Legend -->
-  <div class="seat-legend">
-    <div class="legend-item">
-      <div class="legend-box" style="background:#e8f5e9; border:1px solid #a5d6a7;"></div>
-      <span>Available</span>
-    </div>
-    <div class="legend-item">
-      <div class="legend-box" style="background:#ffebee; border:1px solid #ef9a9a;"></div>
-      <span>Booked</span>
-    </div>
-    <div class="legend-item">
-      <div class="legend-box" style="background:var(--accent); border:1px solid #d84315;"></div>
-      <span>Your Selection</span>
-    </div>
-  </div>
-
-  <!-- Coach Layout -->
-  <div class="coach-layout">
-    <div id="seats-grid" class="seats-grid">
-      <!-- Generated via loadSeatsForJourney() -->
-    </div>
-  </div>
-
-  <!-- Selected Seat Action Bar -->
-  <div id="selected-seat-summary" style="display:none; justify-content:space-between; align-items:center; margin-top:24px; padding-top:20px; border-top:1px solid var(--border);">
-    <div>
-      <span style="font-size: 13px; color: var(--text-muted); text-transform:uppercase; font-weight:700;">Selected Seat</span>
-      <div style="font-size: 18px; font-weight:800; color:var(--primary);" id="selected-seat-label">None selected</div>
-    </div>
-    <button type="button" id="btn-proceed-booking" class="btn btn-accent" disabled>
-      Proceed to Passenger Details &rarr;
-    </button>
-  </div>
-</section>
 {% endblock %}
 
 {% block scripts %}
@@ -75,4 +103,3 @@
   });
 </script>
 {% endblock %}
-

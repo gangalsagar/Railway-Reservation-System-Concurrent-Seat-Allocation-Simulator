@@ -6,10 +6,10 @@ def test_homepage_rendering(client):
     assert res.status_code == 200
     html = res.get_data(as_text=True)
     assert "BharatRail Express" in html
-    assert "Tatkal Simulator" in html
+    assert "Your next journey" in html
     assert "Search Journeys" in html
-    assert "Source Station" in html
-    assert "Destination Station" in html
+    assert 'id="search-source"' in html
+    assert 'id="search-destination"' in html
 
 
 def test_seats_page_rendering(client):
@@ -29,9 +29,9 @@ def test_booking_page_rendering(client):
     res = client.get("/booking?journey_id=1&seat_id=10&seat_number=A1-10&seat_type=2A")
     assert res.status_code == 200
     html = res.get_data(as_text=True)
-    assert "Confirm Seat Allocation" in html
-    assert "Select Passenger Profile" in html
-    assert "Client Idempotency Key" in html
+    assert "Confirm seat allocation" in html
+    assert 'id="passenger-select"' in html
+    assert 'id="booking-idempotency-key"' in html
     assert "Confirm Booking Now" in html
 
 
@@ -40,8 +40,8 @@ def test_confirmation_page_confirmed(client):
     res = client.get("/confirmation?booking_id=1&status=confirmed")
     assert res.status_code == 200
     html = res.get_data(as_text=True)
-    assert "Booking Confirmed!" in html
-    assert "Allocated Seat & Class" in html
+    assert "You're all set for your journey." in html
+    assert 'id="ticket-seat"' in html
     assert "Print Ticket" in html
 
 
@@ -50,8 +50,8 @@ def test_confirmation_page_rejected(client):
     res = client.get("/confirmation?status=rejected&seat_number=A1-01&journey_id=1")
     assert res.status_code == 200
     html = res.get_data(as_text=True)
-    assert "Booking Rejected" in html
-    assert "Seat Already Allocated!" in html
+    assert "This seat is no longer available." in html
+    assert 'id="rejected-seat-label"' in html
     assert "Select Another Seat" in html
 
 
@@ -60,12 +60,12 @@ def test_admin_dashboard_rendering(client):
     res = client.get("/admin")
     assert res.status_code == 200
     html = res.get_data(as_text=True)
-    assert "System Telemetry & Performance Dashboard" in html
+    assert "System performance overview." in html
     assert "Confirmed Bookings" in html
-    assert "Rejected (Conflicts)" in html
-    assert "Avg Latency" in html
+    assert "Rejected Conflicts" in html
+    assert "Average Latency" in html
     assert "P95 Latency" in html
-    assert "Recent Confirmed Reservation Records" in html
+    assert "Recent confirmed reservations" in html
 
 
 def test_history_page_rendering(client):
@@ -73,8 +73,8 @@ def test_history_page_rendering(client):
     res = client.get("/history")
     assert res.status_code == 200
     html = res.get_data(as_text=True)
-    assert "Passenger Booking History Lookup" in html
-    assert "Select Passenger" in html
+    assert "Every journey, in one place." in html
+    assert 'id="history-passenger-select"' in html
 
 
 def test_static_assets_served(client):
