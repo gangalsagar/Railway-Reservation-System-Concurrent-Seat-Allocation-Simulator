@@ -86,3 +86,4 @@ def test_static_assets_served(client):
     js_res = client.get("/static/js/script.js")
     assert js_res.status_code == 200
     assert "searchJourneys" in js_res.get_data(as_text=True)
+

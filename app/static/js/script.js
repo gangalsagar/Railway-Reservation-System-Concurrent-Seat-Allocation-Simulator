@@ -411,3 +411,4 @@ function toggleAdminAutoRefresh(enabled) {
     showToast("Auto-refresh paused", "info");
   }
 }
+
