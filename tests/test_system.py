@@ -194,6 +194,13 @@ def test_system_database_failure_handling(test_app, monkeypatch):
     """
     client = test_app.test_client()
 
+    available_response = client.get("/api/seats/1/available")
+    assert available_response.status_code == 200
+    available_seats = available_response.get_json()["available_seats"]
+    assert available_seats
+
+    seat_id = available_seats[0]["seat_id"]
+
     # Monkeypatch transactional context to simulate database crash / I/O failure
     from app.services import booking_service
 
@@ -205,7 +212,7 @@ def test_system_database_failure_handling(test_app, monkeypatch):
     res = client.post("/api/bookings", json={
         "passenger_id": 1,
         "journey_id": 1,
-        "seat_id": 1,
+        "seat_id": seat_id,
         "idempotency_key": "DB-FAIL-KEY"
     })
 
