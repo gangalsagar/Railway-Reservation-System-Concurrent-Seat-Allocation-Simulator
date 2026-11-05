@@ -99,3 +99,4 @@ def init_db(db_path=None, schema_path=None):
         conn.executescript(schema_script)
         logger.info("Database schema successfully applied to %s", target_db)
     return str(target_db)
+

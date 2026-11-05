@@ -82,3 +82,4 @@ ON bookings (passenger_id);
 
 CREATE INDEX IF NOT EXISTS idx_booking_requests_journey
 ON booking_requests (journey_id);
+

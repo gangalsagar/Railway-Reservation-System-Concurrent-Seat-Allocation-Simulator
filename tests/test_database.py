@@ -233,3 +233,4 @@ def test_seed_database_idempotency(temp_db):
     assert passengers_count_1 == passengers_count_2
     assert journeys_count_1 == journeys_count_2
     assert seats_count_1 == seats_count_2
+

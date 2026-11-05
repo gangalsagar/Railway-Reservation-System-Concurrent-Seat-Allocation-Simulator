@@ -29,3 +29,4 @@ def seeded_db(temp_db):
     """Provides an isolated database pre-populated with seed data."""
     seed_database(db_path=temp_db)
     return temp_db
+
